@@ -23,7 +23,7 @@ const Video = ({video}) => {
     const [duration,setDuration] = useState(null)
     const [channelIcon, setChannelIcon] = useState(null)
 
-
+    const _videoId = id?.videoId ||id
     const seconds =moment.duration(duration).asSeconds()
     const _duration= moment.utc(seconds *1000).format("mm:ss")
 
@@ -45,14 +45,14 @@ const Video = ({video}) => {
             const {data:{items}} = await request('/videos',{
                 params:{
                     part:'contentDetails,statistics',
-                    id:id
+                    id:_videoId,
                 }
             })
             setDuration(items[0].contentDetails.duration)
             setViews(items[0].statistics.viewCount)
         }
         get_video_details();
-    },[id])
+    },[_videoId])
     return (
        <div className="video">
            <div className="video__top">
