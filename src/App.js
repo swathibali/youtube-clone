@@ -28,7 +28,6 @@ const Layout = ({ children }) =>{
           {children}
         </Container>
       </div>
-      <LoginScreen />
     </>
   );
 }
@@ -52,11 +51,11 @@ function App() {
             </Layout>
          </Route>
 
-         <Route path='/auth'>
+         <Route path='/auth' exact>
             <LoginScreen />
          </Route>
 
-         <Route path='/search'>
+         <Route path='/search' exact>
             <Layout>
                <h1>Hi Search results</h1>
             </Layout>
