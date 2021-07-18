@@ -1,4 +1,4 @@
-import { LOAD_PROFILE, LOGIN_FAIL, LOG_OUT, LOGIN_REQUEST, LOGIN_SUCCESS } from "../actionTypes"
+import { LOAD_PROFILE, LOGIN_FAIL, LOG_OUT, LOGIN_REQUEST, LOGIN_SUCCESS } from "../actionType"
 
 const initialState ={
     accessToken: sessionStorage.getItem('ytc-access-token')

@@ -21,4 +21,3 @@ const SkeletonVideo = () => {
 }
 
 export default SkeletonVideo
-

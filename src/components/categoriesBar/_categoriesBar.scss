@@ -1,35 +1,34 @@
-@import '../../_base.scss';
+@import '../../base.scss';
 
 .categoriesBar {
-    padding: 0.5rem 0;
-    font-size: 0.8rem;
-    
-    display: flex;
-    overflow-x: scroll;
+   padding: 0.5rem 0;
+   font-size: 0.8rem;
 
-    &::-webkit-scrollbar {
-        width: 0px;
-     }
-    scrollbar-width: none;
+   display: flex;
+   overflow-x: scroll;
 
-    span {
-        margin-right: 1rem;
-        padding: 0.5rem;
-  
-        white-space: nowrap;
-        border: 1.5px solid $text-color;
-        border-radius: 999px;
-        cursor: pointer;
+   &::-webkit-scrollbar {
+      width: 0px;
+   }
+   scrollbar-width: none;
 
-        &:hover {
-            background-color: #374a59;
-         }
+   span {
+      margin-right: 1rem;
+      padding: 0.5rem;
 
-         &.active {
-            color: #fff;
-            background-color: #606060;
-            border-color: $border-color;
-         }
-    }
-   
+      white-space: nowrap;
+      border: 1.5px solid $text-color;
+      border-radius: 999px;
+      cursor: pointer;
+
+      &:hover {
+         background-color: #374a59;
+      }
+
+      &.active {
+         color: #fff;
+         background-color: #606060;
+         border-color: $border-color;
+      }
+   }
 }

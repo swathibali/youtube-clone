@@ -1,37 +1,42 @@
+import React from 'react'
 import './_sidebar.scss'
+
 import {
-    MdSubscriptions,
-    MdExitToApp,
-    MdThumbUp,
-    MdHistory,
-    MdLibraryBooks,
-    MdHome,
-    MdSentimentDissatisfied,
- } from 'react-icons/md'
+   MdSubscriptions,
+   MdExitToApp,
+   MdThumbUp,
+   MdHistory,
+   MdLibraryBooks,
+   MdHome,
+   MdSentimentDissatisfied,
+} from 'react-icons/md'
 import { useDispatch } from 'react-redux'
-import { logout } from '../../redux/actions/auth.action'
+import { log_out } from '../../redux/actions/auth.action'
+import { Link } from 'react-router-dom'
 
-const Sidebar = ({sidebar,handleToggleSidebar}) => {
-
+const Sidebar = ({ sidebar, handleToggleSidebar }) => {
    const dispatch = useDispatch()
-
-   const logOutHandler =() =>{
-      dispatch(logout())
+   const logOutHandler = () => {
+      dispatch(log_out())
    }
-    return (
-        <nav className={sidebar ? 'sidebar open' : 'sidebar'}
-        onClick ={() =>handleToggleSidebar(false)}
-        >
-
+   return (
+      <nav
+         className={sidebar ? 'sidebar open' : 'sidebar'}
+         onClick={() => handleToggleSidebar(false)}>
+         <Link to='/'>
             <li>
                <MdHome size={23} />
                <span>Home</span>
             </li>
+         </Link>
+         <Link to='/feed/subscriptions'>
             <li>
                <MdSubscriptions size={23} />
                <span>Subscriptions</span>
             </li>
-            <li>
+         </Link>
+
+         <li>
             <MdThumbUp size={23} />
             <span>Liked Video</span>
          </li>
@@ -58,8 +63,8 @@ const Sidebar = ({sidebar,handleToggleSidebar}) => {
          </li>
 
          <hr />
-        </nav>
-    )
+      </nav>
+   )
 }
 
 export default Sidebar
