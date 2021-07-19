@@ -2,9 +2,18 @@ import {
    CHANNEL_DETAILS_FAIL,
    CHANNEL_VIDEOS_REQUEST,
    CHANNEL_VIDEOS_SUCCESS,
+   DISLIKE_FAIL,
+   DISLIKE_REQUEST,
+   DISLIKE_SUCCESS,
    HOME_VIDEOS_FAIL,
    HOME_VIDEOS_REQUEST,
    HOME_VIDEOS_SUCCESS,
+   LIKED_VIDEOS_FAIL,
+   LIKED_VIDEOS_REQUEST,
+   LIKED_VIDEOS_SUCCESS,
+   LIKE_FAIL,
+   LIKE_REQUEST,
+   LIKE_SUCCESS,
    RELATED_VIDEO_FAIL,
    RELATED_VIDEO_REQUEST,
    RELATED_VIDEO_SUCCESS,
@@ -86,7 +95,7 @@ export const getVideosByCategory = keyword => async (dispatch, getState) => {
    }
 }
 
-export const getVideoById = id => async dispatch => {
+export const getVideoById = id => async (dispatch,getState) => {
    try {
       dispatch({
          type: SELECTED_VIDEO_REQUEST,
@@ -98,9 +107,10 @@ export const getVideoById = id => async dispatch => {
             id: id,
          },
       })
+      const rating = dispatch(getRating())
       dispatch({
          type: SELECTED_VIDEO_SUCCESS,
-         payload: data.items[0],
+         payload: {...data.items[0],rating},
       })
    } catch (error) {
       console.log(error.message)
@@ -111,6 +121,22 @@ export const getVideoById = id => async dispatch => {
    }
 }
 
+export const getRating= (id) => async(dispatch,getState) =>{
+   try{
+      const res = await request('/videos/getRating',{
+         params: {
+            id:id,
+         },
+         headers: {
+            Authorization: `Bearer ${getState().auth.accessToken}`,
+         }
+      })
+      const { rating } = res.data.items[0];
+      return rating
+   }catch(err){
+      console.log(err);
+   }
+}
 export const getRelatedVideos = id => async dispatch => {
    try {
       dispatch({
@@ -215,7 +241,7 @@ export const getVideosByChannel = id => async dispatch => {
          params: {
             part: 'snippet,contentDetails',
             playlistId: uploadPlaylistId,
-            maxResults: 30,
+            maxResults: 50,
          },
       })
 
@@ -228,6 +254,93 @@ export const getVideosByChannel = id => async dispatch => {
       dispatch({
          type: CHANNEL_DETAILS_FAIL,
          payload: error.response.data,
+      })
+   }
+}
+
+export const getLikedVideos = () => async (dispatch, getState) => {
+   try {
+      dispatch({
+         type: LIKED_VIDEOS_REQUEST,
+      })
+      const {
+         data,
+      } = await request('/videos', {
+         params: {
+            part: 'snippet,statistics',
+            myRating:'like'
+         },
+         headers: {
+            Authorization: `Bearer ${getState().auth.accessToken}`,
+         },
+      })
+      
+
+      dispatch({
+         type: LIKED_VIDEOS_SUCCESS,
+         payload: data.items,
+      })
+   } catch (error) {
+      console.log(error.response.data)
+      dispatch({
+         type: LIKED_VIDEOS_FAIL,
+         payload: error.response.data,
+      })
+   }
+}
+
+//POST https://www.googleapis.com/youtube/v3/videos/rate?id=b_bJQgZdjzo&rating=like&oauth_token={YOUR_accessTOken}
+
+export const addLikeToVideo = (id) => async (dispatch, getState) => {
+   try {
+      dispatch({
+         type: LIKE_REQUEST,
+      })
+      await request.post('/videos/rate',{
+         params:{
+            id,
+            rating:'like'
+         },
+         headers: {
+            Authorization: `Bearer ${getState().auth.accessToken}`,
+         },
+      })
+      
+
+      dispatch({
+         type: LIKE_SUCCESS,
+      })
+   } catch (error) {
+      console.log(error.response.data)
+      dispatch({
+         type: LIKE_FAIL,
+      })
+   }
+}
+
+export const disLikeToVideo = (id) => async (dispatch, getState) => {
+   try {
+      dispatch({
+         type: DISLIKE_REQUEST,
+      })
+      await request.post('/videos/rate',{
+         params:{
+            id,
+            rating:'dislike'
+         },
+         headers: {
+            Authorization: `Bearer ${getState().auth.accessToken}`,
+         },
+      })
+      
+
+      dispatch({
+         type: DISLIKE_SUCCESS,
+      })
+   } catch (error) {
+      console.log(error.response.data)
+      dispatch({
+         type: DISLIKE_FAIL,
       })
    }
 }

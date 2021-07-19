@@ -14,6 +14,7 @@ import WatchScreen from './screens/watchScreen/WatchScreen'
 import SearchScreen from './screens/SearchScreen'
 import SubscriptionsScreen from './screens/subscriptionsScreen/SubscriptionsScreen'
 import ChannelScreen from './screens/channelScreen/ChannelScreen'
+import LikedVideosScreen from './screens/LikedVideosScreen'
 
 const Layout = ({ children }) => {
    const [sidebar, toggleSidebar] = useState(false)
@@ -78,6 +79,11 @@ const App = () => {
          <Route path='/channel/:channelId'>
             <Layout>
                <ChannelScreen />
+            </Layout>
+         </Route>
+         <Route path='/videos/liked'>
+            <Layout>
+               <LikedVideosScreen />
             </Layout>
          </Route>
 

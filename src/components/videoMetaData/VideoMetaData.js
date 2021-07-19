@@ -7,11 +7,13 @@ import { MdThumbUp, MdThumbDown } from 'react-icons/md'
 import ShowMoreText from 'react-show-more-text'
 import { useDispatch, useSelector } from 'react-redux'
 import {
+    addSubscription,
     checkSubscriptionStatus,
+    deleteSubscription,
     getChannelDetails,
 } from '../../redux/actions/channel.action'
 import HelmetCustom from '../HelmetCustom'
-const VideoMetaData = ({ video: { snippet, statistics }, videoId }) => {
+const VideoMetaData = ({ video: { snippet, statistics,rating}, videoId }) => {
     const { channelId, channelTitle, description, title, publishedAt } = snippet
     const { viewCount, likeCount, dislikeCount } = statistics
 
@@ -25,6 +27,10 @@ const VideoMetaData = ({ video: { snippet, statistics }, videoId }) => {
     const subscriptionStatus = useSelector(
         state => state.channelDetails.subscriptionStatus
     )
+    const handleSubscribe = () =>{
+       
+        subscriptionStatus ? dispatch(deleteSubscription()): dispatch(addSubscription(channelId))
+    }
 
     useEffect(() => {
         dispatch(getChannelDetails(channelId))
@@ -75,7 +81,7 @@ const VideoMetaData = ({ video: { snippet, statistics }, videoId }) => {
 
                 <button
                     className={`p-2 m-2 border-0 btn ${subscriptionStatus && 'btn-gray'
-                        }`}>
+                        }`} onClick = {handleSubscribe}>
                     {subscriptionStatus ? 'Subscribed' : 'Subscribe'}
                 </button>
             </div>

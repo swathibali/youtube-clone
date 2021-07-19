@@ -10,7 +10,7 @@ import { LazyLoadImage } from 'react-lazy-load-image-component'
 import { Col, Row } from 'react-bootstrap'
 import { useHistory } from 'react-router-dom'
 
-const VideoHorizontal = ({ video, searchScreen, subScreen }) => {
+const VideoHorizontal = ({ video, searchScreen, subScreen ,likeScreen }) => {
    const {
       id,
       snippet: {
@@ -37,7 +37,7 @@ const VideoHorizontal = ({ video, searchScreen, subScreen }) => {
          } = await request('/videos', {
             params: {
                part: 'contentDetails,statistics',
-               id: id.videoId,
+               id: likeScreen ? id :id.videoId,
             },
          })
          setDuration(items[0].contentDetails.duration)
@@ -69,6 +69,7 @@ const VideoHorizontal = ({ video, searchScreen, subScreen }) => {
    const _channelId = resourceId?.channelId || channelId
 
    const handleClick = () => {
+      likeScreen ? history.push(`/watch/${id}`) :
       isVideo
          ? history.push(`/watch/${id.videoId}`)
          : history.push(`/channel/${_channelId}`)
@@ -83,7 +84,7 @@ const VideoHorizontal = ({ video, searchScreen, subScreen }) => {
          {/* //TODO refractor grid */}
          <Col
             xs={6}
-            md={searchScreen || subScreen ? 4 : 6}
+            md={searchScreen || subScreen || likeScreen ? 4 : 6}
             className='videoHorizontal__left'>
             <LazyLoadImage
                src={medium.url}
@@ -97,7 +98,7 @@ const VideoHorizontal = ({ video, searchScreen, subScreen }) => {
          </Col>
          <Col
             xs={6}
-            md={searchScreen || subScreen ? 8 : 6}
+            md={searchScreen || subScreen || likeScreen  ? 8 : 6}
             className='p-0 videoHorizontal__right'>
             <p className='mb-1 videoHorizontal__title'>{title}</p>
 
@@ -108,7 +109,7 @@ const VideoHorizontal = ({ video, searchScreen, subScreen }) => {
                </div>
             )}
 
-            {(searchScreen || subScreen) && (
+            {(searchScreen || subScreen || likeScreen) && (
                <p className='mt-1 videoHorizontal__desc'>{description}</p>
             )}
 
