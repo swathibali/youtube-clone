@@ -10,13 +10,30 @@
          border-radius: 50%;
       }
    }
+   // button {
+   //    text-transform: uppercase;
+   //    background-color:gray;
+   //    color:whitesmoke;
+   //    font-size: 1rem;
+   //    padding: 0.4rem;
+   //    border: none;
+   // }
    button {
+      background-color: red;
+      color: #fff;
+      border-radius: 0;
       text-transform: uppercase;
-      background-color:gray;
-      color:whitesmoke;
-      font-size: 1rem;
-      padding: 0.4rem;
-      border: none;
+      letter-spacing: 0.5px;
+      &.btn-gray {
+         background-color: gray;
+      }
+      &:hover {
+         color: #fff;
+      }
+      &:focus {
+         border: none;
+         outline: none;
+      }
    }
 }
 

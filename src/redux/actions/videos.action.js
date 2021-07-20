@@ -107,7 +107,15 @@ export const getVideoById = id => async (dispatch,getState) => {
             id: id,
          },
       })
-      const rating = dispatch(getRating())
+      const res = await request('/videos/getRating',{
+         params: {
+            id:id,
+         },
+         headers: {
+            Authorization: `Bearer ${getState().auth.accessToken}`,
+         }
+      })
+     const {rating }= res.data.items[0]
       dispatch({
          type: SELECTED_VIDEO_SUCCESS,
          payload: {...data.items[0],rating},
@@ -131,8 +139,8 @@ export const getRating= (id) => async(dispatch,getState) =>{
             Authorization: `Bearer ${getState().auth.accessToken}`,
          }
       })
-      const { rating } = res.data.items[0];
-      return rating
+     const {rating }= res.data.items[0]
+     return rating 
    }catch(err){
       console.log(err);
    }
@@ -149,6 +157,7 @@ export const getRelatedVideos = id => async dispatch => {
             relatedToVideoId: id,
             maxResults: 15,
             type: 'video',
+            
          },
       })
       dispatch({
@@ -173,7 +182,7 @@ export const getVideosBySearch = keyword => async dispatch => {
          params: {
             part: 'snippet',
 
-            maxResults: 20,
+            maxResults: 30,
             q: keyword,
             type: 'video,channel',
          },

@@ -51,9 +51,9 @@ export const checkSubscriptionStatus = id => async (dispatch, getState) => {
       })
       dispatch({
          type: SET_SUBSCRIPTION_STATUS,
-         payload: data.items.length !== 0,
+         payload: data.items.length !== 0 ? {status:true,id:data.items[0].id} : false,
       })
-      console.log(data)
+      console.log(data,'subscription status')
    } catch (error) {
       console.log(error.response.data)
    }
@@ -102,25 +102,14 @@ export const deleteSubscription = id => async (dispatch, getState) => {
          type: SUBSCRIPTION_REMOVE_REQUEST,
       })
    
-      const res= await request('/subscriptions',{
+      await request.delete('/subscriptions',{
          params: {
-            forChannelId: 'id',
-            mine: 'true',
-            part: 'snippet,contentDetails'
+           id:getState().channelDetails.subscription.id
          },
          headers: {
             Authorization: `Bearer ${getState().auth.accessToken}`,
          },
       })
-      console.log(res,'data');
-      // await request.delete('/subscriptions',{
-      //    params: {
-      //      id:id
-      //    },
-      //    headers: {
-      //       Authorization: `Bearer ${getState().auth.accessToken}`,
-      //    },
-      // })
       dispatch({
          type: SUBSCRIPTION_REMOVE_SUCCESS,
 

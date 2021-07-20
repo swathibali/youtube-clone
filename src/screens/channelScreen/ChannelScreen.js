@@ -4,7 +4,7 @@ import Skeleton, { SkeletonTheme } from 'react-loading-skeleton'
 import { useDispatch, useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
 import Video from '../../components/video/Video'
-import { getChannelDetails } from '../../redux/actions/channel.action'
+import { addSubscription, checkSubscriptionStatus, deleteSubscription, getChannelDetails } from '../../redux/actions/channel.action'
 import { getVideosByChannel } from '../../redux/actions/videos.action'
 
 import numeral from 'numeral'
@@ -14,8 +14,11 @@ import './channelScreen.scss'
 const ChannelScreen = () => {
    const { channelId } = useParams()
 
+   const subscriptionStatus = useSelector(
+      state => state.channelDetails.subscription.status
+  ) 
    const dispatch = useDispatch()
-
+  
    useEffect(() => {
       dispatch(getVideosByChannel(channelId))
       dispatch(getChannelDetails(channelId))
@@ -25,7 +28,13 @@ const ChannelScreen = () => {
    const { snippet, statistics } = useSelector(
       state => state.channelDetails.channel
    )
-
+   const handleSubscribe = () =>{
+       
+      subscriptionStatus ? dispatch(deleteSubscription(channelId)): dispatch(addSubscription(channelId))
+   }
+   useEffect(() => {
+      dispatch(checkSubscriptionStatus(channelId))
+  }, [dispatch, channelId])
    return (
       <>
          <div className='px-5 py-2 my-2 d-flex justify-content-between align-items-center channelHeader'>
@@ -41,7 +50,11 @@ const ChannelScreen = () => {
                </div>
             </div>
 
-            <button>Subscribed</button>
+            <button
+                    className={`p-2 m-2 border-0 btn ${subscriptionStatus && 'btn-gray'
+                        }`} onClick = {handleSubscribe}>
+                    {subscriptionStatus ? 'Subscribed' : 'Subscribe'}
+            </button>
          </div>
 
          <Container>

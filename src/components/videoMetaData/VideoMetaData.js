@@ -13,7 +13,8 @@ import {
     getChannelDetails,
 } from '../../redux/actions/channel.action'
 import HelmetCustom from '../HelmetCustom'
-const VideoMetaData = ({ video: { snippet, statistics,rating}, videoId }) => {
+import { addLikeToVideo, disLikeToVideo } from '../../redux/actions/videos.action'
+const VideoMetaData = ({ video: { id,snippet, statistics,rating}, videoId }) => {
     const { channelId, channelTitle, description, title, publishedAt } = snippet
     const { viewCount, likeCount, dislikeCount } = statistics
 
@@ -25,11 +26,19 @@ const VideoMetaData = ({ video: { snippet, statistics,rating}, videoId }) => {
     } = useSelector(state => state.channelDetails.channel)
 
     const subscriptionStatus = useSelector(
-        state => state.channelDetails.subscriptionStatus
+        state => state.channelDetails.subscription.status
     )
     const handleSubscribe = () =>{
        
-        subscriptionStatus ? dispatch(deleteSubscription()): dispatch(addSubscription(channelId))
+        subscriptionStatus ? dispatch(deleteSubscription(channelId)): dispatch(addSubscription(channelId))
+    }
+    const handleLike =() =>{
+        rating === 'none' ? rating='like' : rating === 'dilike' ? rating ='like' : rating='none'
+        dispatch(addLikeToVideo(id))
+    }
+    const handleDislike =() =>{
+        rating === 'none' ? rating='dislike' : rating === 'like' ? rating ='dislike' : rating='none'
+        dispatch(disLikeToVideo(id))
     }
 
     useEffect(() => {
@@ -50,11 +59,11 @@ const VideoMetaData = ({ video: { snippet, statistics,rating}, videoId }) => {
                     </span>
 
                     <div>
-                        <span className='mr-3'>
-                            <MdThumbUp size={26} /> {numeral(likeCount).format('0.a')}
+                        <span className={`mr-3 ${rating === 'like' ? 'text-primary':'' }`}  >
+                            <MdThumbUp size={26} onclick={handleLike}/> {numeral(likeCount).format('0.a')}
                         </span>
-                        <span className='mr-3'>
-                            <MdThumbDown size={26} />{' '}
+                        <span className={`mr-3 ${rating === 'dislike' ? 'text-danger':'' }`} >
+                            <MdThumbDown size={26} onclick={handleDislike}/>{' '}
                             {numeral(dislikeCount).format('0.a')}
                         </span>
                     </div>

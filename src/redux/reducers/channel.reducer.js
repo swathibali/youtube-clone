@@ -9,7 +9,7 @@ import {
     state = {
        loading: true,
        channel: {},
-       subscriptionStatus: false,
+       subscription: false,
     },
     action
  ) => {
@@ -37,7 +37,7 @@ import {
        case SET_SUBSCRIPTION_STATUS:
           return {
              ...state,
-             subscriptionStatus: payload,
+             subscription: payload,
           }
        default:
           return state
