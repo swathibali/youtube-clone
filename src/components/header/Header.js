@@ -16,11 +16,12 @@ const Header = ({ handleToggleSidebar }) => {
         e.preventDefault()
 
         history.push(`/search/${input}`)
+        setInput('');
     }
     const user = useSelector(state => state.auth?.user)
 
     return (
-        <div className='header '>
+        <div className='header'>
             <FaBars
                 className='header__menu'
                 size={26}

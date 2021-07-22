@@ -51,6 +51,9 @@
    &.open {
       transform: translateX(0);
    }
+   .link-active{
+      background-color: blue;
+   }
 }
 
 @media (max-width: $breakpoint-medium) {
