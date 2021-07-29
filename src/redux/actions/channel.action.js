@@ -114,9 +114,9 @@ export const deleteSubscription = id => async (dispatch, getState) => {
          type: SUBSCRIPTION_REMOVE_SUCCESS,
 
       })
-      setTimeout(()=>{
-         dispatch(checkSubscriptionStatus(id))
-      },1000)
+      
+      dispatch(checkSubscriptionStatus(id))
+      
       
    } catch (error) {
       console.log(error.response.data)

@@ -25,14 +25,14 @@ const Sidebar = ({ sidebar, handleToggleSidebar }) => {
       <nav
          className={sidebar ? 'sidebar open' : 'sidebar'}
          onClick={() => handleToggleSidebar(false)}>
-         <Link to='/'  className={`${pathname === '/' ? 'link-active' : ''}`}>
-            <li>
+         <Link to='/'  >
+            <li className={`${pathname === '/' ? 'link-active' : ''}`}>
                <MdHome size={23} />
                <span>Home</span>
             </li>
          </Link>
-         <Link to='/feed/subscriptions' className={`${pathname === '/feed/subscriptions' ? 'link-active' : ''}`}>
-            <li>
+         <Link to='/feed/subscriptions'>
+            <li  className={`${pathname === '/feed/subscriptions' ? 'link-active' : ''}`}>
                <MdSubscriptions size={23} />
                <span>Subscriptions</span>
             </li>
