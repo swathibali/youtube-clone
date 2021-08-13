@@ -5,7 +5,7 @@ Technologies Used: React.js, Redux, Redux-Thunk, SASS, Firebase- GoogleAuthProvi
 
 Hosting Url:  https://not-yt3ms.web.app/
 
-<a href="url"><img src="https://user-images.githubusercontent.com/54434689/129313623-ef7b8385-762d-4010-b199-e33950765ff8.png" align="left" height="48" width="48" ></a>
+<a href="url"><img src="https://user-images.githubusercontent.com/54434689/129313623-ef7b8385-762d-4010-b199-e33950765ff8.png" align="left" height="450" width="550" ></a>
 
 
 
